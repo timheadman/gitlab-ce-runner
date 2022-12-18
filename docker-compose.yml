@@ -1,0 +1,52 @@
+version: "3.6"
+
+volumes:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:
+  gitlab_runner_data:
+  gitlab_runner_sock:
+
+configs:
+  gitlab:
+    file: ./gitlab.rb
+
+networks:
+  gitlab_net:
+
+services:
+  gitlab:
+    container_name: gitlab
+    image: gitlab/gitlab-ce:latest
+    restart: unless-stopped
+    hostname: localhost
+    environment:
+      GITLAB_OMNIBUS_CONFIG: "from_file('/etc/gitlab/omnibus_config.rb')"
+    configs:
+      - source: gitlab
+        target: /etc/gitlab/omnibus_config.rb
+    ports:
+      - "44324:44324"
+      - "2224:22"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+    shm_size: 256m
+    networks:
+      - gitlab_net
+
+  gitlab_runner:
+    container_name: gitlab_runner
+    image: gitlab/gitlab-runner:alpine
+    restart: unless-stopped
+    env_file: gitlab_runner.env
+    depends_on:
+      - gitlab
+    volumes:
+      - gitlab_runner_data:/etc/gitlab-runner
+      - gitlab_runner_sock:/var/run/docker.sock
+    networks:
+      - gitlab_net
+
+

@@ -1,0 +1,7 @@
+gitlab.rb
+backup*/
+new_keys/
+*.tar
+*.gzip
+*.bz2
+
