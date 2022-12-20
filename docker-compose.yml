@@ -28,7 +28,7 @@ services:
       - source: gitlab
         target: /etc/gitlab/omnibus-config.rb
     ports:
-      - "44324:44324"
+      - "44324:443"
       - "2224:22"
     volumes:
       - gitlab-config:/etc/gitlab
