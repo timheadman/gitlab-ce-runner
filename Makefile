@@ -1,8 +1,8 @@
-.PHONY: key_copy
+.PHONY: key
 # Копируем сертификаты на GitLab и GitLab runner 
-copy:
-	@docker cp /new_key/localhost.crt gitlab_runner:/etc/gitlab-runner/certs/gitlab.crt
-	#@docker cp /new_key/server.* gitlab_runner:/etc/gitlab-runner/certs/gitlab.crt
+key:
+	@docker cp /new-key/localhost.crt gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
+	#@docker cp /new-key/server.* gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
 	#ToDO доделать
 
 .PHONY: runner
@@ -13,15 +13,15 @@ runner:
   		    gitlab/gitlab-runner:latest
 
 
-.PHONY: runner_register
-runner_register:
-	@docker exec -it gitlab_runner gitlab-runner register \
+.PHONY: runner-register
+runner-register:
+	@docker exec -it gitlab-runner gitlab-runner register \
                      --non-interactive \
                      --executor "docker" \
                      --docker-image alpine:latest \
                      --url "https://gitlab" \
                      --registration-token "*****TOKEN*****" \
-                     --description "docker_runner" \
+                     --description "docker-runner" \
                      --maintenance-note "Free-form maintainer notes about this runner" \
                      --tag-list "docker,aws" \
                      --run-untagged="true" \

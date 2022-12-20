@@ -3,8 +3,8 @@
 
 SERVER_NAME=$1
 UTC=$(date +"%s")
-mkdir -p new_keys
-cd new_keys
+mkdir -p new-keys
+cd new-keys
 rm -f *
 openssl genrsa -out ca.key 2048
 openssl req -new -x509 -days 1024 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Monsters Inc., Inc./CN=Monsters Inc. Root CA" -out ca.crt
