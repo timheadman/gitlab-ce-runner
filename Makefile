@@ -1,8 +1,9 @@
-.PHONY: key
+.PHONY: copy-cert
 # Копируем сертификаты на GitLab и GitLab runner 
-key:
-	@docker cp /new-key/localhost.crt gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
-	#@docker cp /new-key/server.* gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
+copy-cert:
+	#@docker cp /keys/localhost.crt gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
+	#@docker cp /keys/server.* gitlab-runner:/etc/gitlab-runner/certs/gitlab.crt
+	@docker cp /keys/localhost.crt gitlab:/etc/gitlab/ssl/gitlab.crt
 	#ToDO доделать
 
 .PHONY: runner
@@ -27,4 +28,14 @@ runner-register:
                      --run-untagged="true" \
                      --locked="false" \
                      --access-level="not_protected"
+
+.PHONY: test-up
+test-up:
+	docker compose build
+	docker compose up
+
+.PHONY: test-down
+test-down:
+	docker compose down
+	docker system prune --force
 
