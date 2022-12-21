@@ -1,6 +1,6 @@
 gitlab.rb
 backup*/
-new-keys/
+keys/
 *.tar
 *.gzip
 *.bz2
