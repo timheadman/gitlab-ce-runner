@@ -4,9 +4,8 @@ volumes:
   gitlab-config:
   gitlab-logs:
   gitlab-data:
-    #  gitlab-runner-data:
-    #  gitlab-runner-sock:
-
+  gitlab-runner-data:
+  gitlab-runner-sock:
 
 configs:
   gitlab:
@@ -17,7 +16,6 @@ services:
     container_name: gitlab
     image: gitlab/gitlab-ce:latest
     restart: unless-stopped
-      #hostname: localhost
     build:
       context: .
       dockerfile: Dockerfile
@@ -35,13 +33,13 @@ services:
       - gitlab-data:/var/opt/gitlab
     shm_size: 256m
 
-      #  gitlab-runner:
-      #    container_name: gitlab-runner
-      #    image: gitlab/gitlab-runner:alpine
-      #    restart: unless-stopped
-      #    env_file: gitlab-runner.env
-      #    depends_on:
-      #      - gitlab
-      #    volumes:
-      #      - gitlab-runner-data:/etc/gitlab-runner
-      #      - gitlab-runner-sock:/var/run/docker.sock
+  gitlab-runner:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner:alpine
+    restart: unless-stopped
+    env_file: gitlab-runner.env
+    depends_on:
+      - gitlab
+    volumes:
+      - gitlab-runner-data:/etc/gitlab-runner
+      - gitlab-runner-sock:/var/run/docker.sock
