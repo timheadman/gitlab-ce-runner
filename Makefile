@@ -7,5 +7,5 @@ test-up:
 test-down:
 	docker compose down
 	docker system prune --force
-	docker volume prune --force
+	#docker volume prune --force
 
