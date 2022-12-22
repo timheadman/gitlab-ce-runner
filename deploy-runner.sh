@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$#" -lt 1 ]]; then
-    echo Requires url and registration-token registration token.
+    echo -e "Requires url and registration-token registration token.\nExample: ./deploy-runner.sh server.lan:44324 87HGMEnx-pAMefMyvenxJ"
     exit 1
 fi
 
@@ -10,8 +10,6 @@ file_name=${url%:*}
 token=$2
 
 # Копируем сертификаты на GitLab runner 
-#docker cp keys/ca.crt gitlab-runner:/etc/gitlab-runner/certs/ca.crt
-#docker cp keys/ca.key gitlab-runner:/etc/gitlab-runner/certs/ca.key
 docker cp keys/localhost.crt gitlab-runner:/etc/gitlab-runner/certs/${file_name}.crt
 docker cp keys/localhost.key gitlab-runner:/etc/gitlab-runner/certs/${file_name}.key
 
@@ -29,6 +27,4 @@ docker exec -it gitlab-runner gitlab-runner register \
                      --run-untagged="true" \
                      --locked="false" \
                      --access-level="not_protected"
-
-
                      #--tls-ca-file "/etc/gitlab-runner/certs/ca.crt"
