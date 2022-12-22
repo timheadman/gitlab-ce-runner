@@ -2,6 +2,7 @@ version: "3.6"
 
 volumes:
   gitlab-config:
+  gitlab-keys:
   gitlab-logs:
   gitlab-data:
 
@@ -24,7 +25,9 @@ services:
       - "2224:22"
     volumes:
       - gitlab-config:/etc/gitlab
+      - gitlab-keys:/etc/gitlab/ssl
       - gitlab-logs:/var/log/gitlab
       - gitlab-data:/var/opt/gitlab
+
     shm_size: 256m
 
